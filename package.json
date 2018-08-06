@@ -1,0 +1,27 @@
+{
+  "name": "mongodb-belajar2",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "author": "zzcomzz",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.5",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.18.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zzCOMzz/Project1.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zzCOMzz/Project1/issues"
+  },
+  "homepage": "https://github.com/zzCOMzz/Project1#readme",
+  "description": ""
+}
