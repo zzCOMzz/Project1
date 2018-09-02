@@ -1,25 +1,62 @@
-  const User = require('../models/user')
+const User = require('../models/user');
+const Car  = require('../models/car');
+
 
 module.exports = {
-  index : (req, res, next) => {
-    User.find({})
-      .then((users)=>{
-        res.status(200).json(users)
-      })
-      .catch(err =>{
-        next(err)
-      })
+  index : async (req, res, next)=>{
+    const users = await User.find({});
+    res.status(200).json(users);
   },
 
-  newUser: (req, res, next)=>{
+  newUser : async (req, res, next) => {
     const newUser = new User(req.body)
-    newUser.save()
-      .then(user=>{
-        res.status(201).json(user)
-      })
-      .catch(err =>{
-        next(err)
-      })
+    const user = await newUser.save();
+    res.status(201).json(user)
+  },
+
+  getUser : async (req, res, next) => {
+    const { userId } = req.value.params;
+    console.log(userId)
+    const user = await User.findById(userId);
+    res.status(200).json(user);
+  },
+  // Patch
+  replaceUser : async (req, res, next) => {
+    const { userId } = req.params;
+    const newUser = req.body;
+    const result = await User.findByIdAndUpdate(userId, newUser)
+    res.status(200).json(result);
+    
+  },
+  // Update/ Put
+  updateUser : async (req, res, next) => {
+    const { userId } = req.params;
+    const newUser = req.body;
+    const result = await User.findByIdAndUpdate(userId, newUser)
+    res.status(200).json({success : true});
+  },
+
+  getUserCars : async (req, res, next) => {
+    const { userId } = req.params;
+    const user = await User.findById(userId).populate('cars');
+    res.status(200).json(user.cars);
+  },
+
+  newUserCars : async (req, res, next ) => {
+    const { userId } = req.params
+    // create new car
+    const newCar = new Car(req.body)
+    // get user
+    const user = await User.findById(userId)
+    // assign a user as a car seller
+    newCar.seller = user;
+    // save the car
+    await newCar.save()
+    // add to car to the user's selling array 'cars'
+    user.cars.push(newCar)
+    // user save
+    await user.save();
+    res.status(201).json(newCar);
   },
 
   about : (req, res)=>{
